@@ -5,13 +5,16 @@
 /* Custom styles for the grid */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
-  grid-gap: 1px;
+  grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
+  row-gap: 1px;
+  column-gap: 5px;
+  
 }
 
 .cell {
-  width: 20px;
-  height: 20px;
+  box-sizing: border-box;
+  width: 30px;
+  height: 30px;
   border: 1px solid #ddd;
   background-color: #fff;
 }

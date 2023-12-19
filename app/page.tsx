@@ -1,28 +1,36 @@
 "use client";
 import Image from "next/image";
 import Grid from "./components/grid";
-
+import React, { useState } from 'react';
 export default function Home() {
-  const gridProps = {
+
+  const handleCellClick = (row:number, col:number) => {
+    console.log("psed: " + row + "  " + col);
+    var newWalls = gridProps.walls;
+    newWalls.push({row,col});
+    setGridProps((prevGridProps) => ({
+     ...prevGridProps,
+      walls: newWalls,
+    }));
+  }
+  const [gridProps, setGridProps] = useState({
     rows: 20,
     cols: 20,
     start: { row: 0, col: 10 },
-    end: { row: 9, col: 12 },
+    end: { row: 19, col: 10 },
     walls: [
       { row: 5, col: 8 },
-      { row: 5, col: 9 },
-      { row: 5, col: 10 },
-      { row: 5, col: 11 },
-      { row: 5, col: 12 },
-      { row: 5, col: 13 },
     ],
-    path: [],
-  };
+    path: [{row: 20, col: 20}],
+    onCellClick: handleCellClick
+  });
+
 
   interface Point {
     visited: boolean;
     row: number;
     col: number;
+    previous?: Point;
   }
 
   const grid: Point[][] = Array.from({ length: gridProps.rows }, (_, row) =>
@@ -61,10 +69,11 @@ export default function Home() {
       }
     }
     if (reachedEnd) {
+      const path = getPath(currentPoint);
       console.log("movecount : " + moveCount);
       return moveCount;
     } else {
-      console.log("notworkl");
+      console.log("no path");
       return -1;
     }
   };
@@ -96,17 +105,35 @@ export default function Home() {
       ) {
         continue;
       }
+      grid[newRow][newCol].previous = p;
       grid[newRow][newCol].visited = true;
       queue.push(grid[newRow][newCol]);
       nodes_in_next_layer++;
     }
   };
 
+  const getPath = (endPoint: Point | undefined): Point[] => {
+    const endPath: Point[] = [];
+  let currentPoint: Point | undefined = endPoint;
+
+  while (currentPoint) {
+    endPath.unshift(currentPoint);
+    currentPoint = currentPoint.previous;
+  }
+    
+  const newPath = endPath.map((point) => ({ row: point.row, col: point.col }));
+  setGridProps((prevGridProps) => ({
+    ...prevGridProps,
+    path: newPath,
+  }));
+  console.log(gridProps.path)
+  return endPath;
+  };
+
   return (
     <div>
-      <h1>awd</h1>
       <Grid {...gridProps} />
-      <button onClick={() => solve()}>bfs</button>
+      <button onClick={() => solve()}>breadth first search</button>
     </div>
   );
 }
