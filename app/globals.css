@@ -34,3 +34,7 @@
 .path {
   background-color: #0f0;
 }
+
+.visited {
+  background-color: aqua;
+}

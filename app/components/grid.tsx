@@ -9,10 +9,11 @@ interface GridProps {
     end: { row: number; col: number };
     walls: { row: number; col: number }[];
     path?: { row: number; col: number }[];
+    visited?: {row:number, col: number}[];
     onCellClick : (row: number, col: number) => void;
   }
 
-const Grid: React.FC<GridProps> = ({ rows, cols, start, end, walls, path, onCellClick }:any) => {
+const Grid: React.FC<GridProps> = ({ rows, cols, start, end, walls, path, onCellClick, visited }:any) => {
     const determineCellState = (row:number, col:number) => {
       if(row === start.row && col === start.col){
         return 'start';
@@ -26,6 +27,9 @@ const Grid: React.FC<GridProps> = ({ rows, cols, start, end, walls, path, onCell
       }
       if (Array.isArray(path) && path.some((paths: any) => paths.row === row && paths.col === col)) {
         return 'path';
+      }
+      if (Array.isArray(visited) && visited.some((visits: any) => visits.row === row && visits.col === col)) {
+        return 'visited';
       }
       
     };
