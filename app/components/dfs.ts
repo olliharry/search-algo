@@ -1,4 +1,5 @@
 import { sleep } from "./sleep";
+import { gridInterface } from '../interfaces/gridInterface';
 
 interface Point {
     visited: boolean;
@@ -12,26 +13,8 @@ const stack: Point[] = [];
 var reachedEnd: boolean = false;
 
 export async function dfs(
-    gridProps: {
-        rows: number;
-        cols: number;
-        start: { row: number; col: number };
-        end: { row: number; col: number };
-        walls: { row: number; col: number }[];
-        path?: { row: number; col: number }[];
-        visited: {row:number, col: number}[];
-        onCellClick : (row: number, col: number) => void;
-      }, 
-    setGridProps: React.Dispatch<React.SetStateAction<{
-        rows: number;
-        cols: number;
-        start: { row: number; col: number };
-        end: { row: number; col: number };
-        walls: { row: number; col: number }[];
-        path?: { row: number; col: number }[];
-        visited: {row:number, col: number}[];
-        onCellClick : (row: number, col: number) => void;
-      }>>
+    gridProps: gridInterface, 
+    setGridProps: React.Dispatch<React.SetStateAction<gridInterface>>
   ): Promise<number | -1>{
 
     grid= Array.from({ length: gridProps.rows }, (_, row) =>
@@ -62,11 +45,13 @@ export async function dfs(
     var newVisited = gridProps.visited;
     const directionRows = [-1, +1, 0, 0];
     const directionCols = [0, 0, +1, -1];
+    //const directionRows = [-1, +1, 0, 0];
+    //const directionCols = [0, 0, +1, -1];
     var newRow: number;
     var newCol: number;
     for (var i = 0; i < 4; i++) {
-      newRow = p.row + directionRows[i];
-      newCol = p.col + directionCols[i];
+      newRow = p.row + directionRows[i]
+      newCol = p.col + directionCols[i]
 
       if (newRow < 0 || newCol < 0) {
         continue;
@@ -111,6 +96,5 @@ export async function dfs(
     ...prevGridProps,
     path: newPath,
   }));
-  console.log(gridProps.path)
   return endPath;
   };

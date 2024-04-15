@@ -1,19 +1,9 @@
 // components/Grid.jsx
 import React from 'react';
 import Cell from './cell';
+import { gridInterface } from '../interfaces/gridInterface';
 
-interface GridProps {
-    rows: number;
-    cols: number;
-    start: { row: number; col: number };
-    end: { row: number; col: number };
-    walls: { row: number; col: number }[];
-    path?: { row: number; col: number }[];
-    visited?: {row:number, col: number}[];
-    onCellClick : (row: number, col: number) => void;
-  }
-
-const Grid: React.FC<GridProps> = ({ rows, cols, start, end, walls, path, onCellClick, visited }:any) => {
+const Grid: React.FC<gridInterface> = ({ rows, cols, start, end, walls, path, onCellClick, visited }:any) => {
     const determineCellState = (row:number, col:number) => {
       if(row === start.row && col === start.col){
         return 'start';

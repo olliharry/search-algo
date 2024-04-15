@@ -1,4 +1,5 @@
 import { sleep } from "./sleep";
+import { gridInterface } from '../interfaces/gridInterface';
 
 interface Point {
     visited: boolean;
@@ -15,26 +16,8 @@ var nodes_in_next_layer = 0;
 var reachedEnd: boolean = false;
 
   export async function bfs(
-    gridProps: {
-        rows: number;
-        cols: number;
-        start: { row: number; col: number };
-        end: { row: number; col: number };
-        walls: { row: number; col: number }[];
-        path?: { row: number; col: number }[];
-        visited?: {row:number, col: number}[];
-        onCellClick : (row: number, col: number) => void;
-      }, 
-    setGridProps: React.Dispatch<React.SetStateAction<{
-        rows: number;
-        cols: number;
-        start: { row: number; col: number };
-        end: { row: number; col: number };
-        walls: { row: number; col: number }[];
-        path?: { row: number; col: number }[];
-        visited: {row:number, col: number}[];
-        onCellClick : (row: number, col: number) => void;
-      }>>
+    gridProps: gridInterface, 
+    setGridProps: React.Dispatch<React.SetStateAction<gridInterface>>
   ): Promise<number | -1>{
 
     grid= Array.from({ length: gridProps.rows }, (_, row) =>
@@ -65,7 +48,7 @@ var reachedEnd: boolean = false;
         moveCount++;
       }
     }
-    await sleep(20);
+    await sleep(15);
   }
   if (reachedEnd) {
     const path = getPath(currentPoint, gridProps, setGridProps);
@@ -117,7 +100,7 @@ var reachedEnd: boolean = false;
     }
   };
 
-  const getPath = (endPoint: Point | undefined, gridProps:any, setGridProps:any): Point[] => {
+  const getPath = (endPoint: Point | undefined, gridProps:gridInterface, setGridProps:React.Dispatch<React.SetStateAction<gridInterface>>): Point[] => {
     const endPath: Point[] = [];
   let currentPoint: Point | undefined = endPoint;
 
@@ -127,13 +110,13 @@ var reachedEnd: boolean = false;
   }
     
   const newPath = endPath.map((point) => ({ row: point.row, col: point.col }));
-  setGridProps((prevGridProps: any) => ({
+  setGridProps((prevGridProps: gridInterface) => ({
     ...prevGridProps,
     path: newPath,
   }));
-  console.log(gridProps.path)
   return endPath;
   };
+  
 
 
 

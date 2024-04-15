@@ -1,66 +1,68 @@
 "use client";
-import Image from "next/image";
 import Grid from "./components/grid";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 import { bfs } from "./components/bfs";
 import { dfs } from "./components/dfs";
-import useGridProps from "./components/customHook"
+import { gridInterface } from "./interfaces/gridInterface";
+import styles from './page.module.css';
 export default function Home() {
-  const handleCellClick = (row:number, col:number) => {
+  const handleCellClick = (row: number, col: number) => {
     var newWalls = gridProps.walls;
-    if(gridProps.walls.some((wall) => wall.row === row && wall.col === col)){
-      newWalls.splice( newWalls.indexOf({row,col}) ,1)
-    }
-    else{
-      newWalls.push({row,col});
+    if (gridProps.walls.some((wall) => wall.row === row && wall.col === col)) {
+      newWalls.splice(newWalls.indexOf({ row, col }), 1);
+    } else {
+      newWalls.push({ row, col });
     }
     setGridProps((prevGridProps) => ({
-     ...prevGridProps,
+      ...prevGridProps,
       walls: newWalls,
     }));
-  }
+  };
 
-  interface GridProps {
-    rows: number;
-    cols: number;
-    start: { row: number; col: number };
-    end: { row: number; col: number };
-    walls: { row: number; col: number }[];
-    path?: { row: number; col: number }[];
-    visited: {row:number, col: number}[];
-    onCellClick : (row: number, col: number) => void;
-  }
+  const [isSearchRunning, setIsSearchRunning] = useState(false);
 
-  const initialGridProps: GridProps = {
+  const initialGridProps: gridInterface = {
     rows: 20,
     cols: 20,
-    start: { row: 5, col: 10 },
+    start: { row: 0, col: 10 },
     end: { row: 19, col: 10 },
-    walls: [
-      { row: 5, col: 8 },
-    ],
-    path: [{ row: 20, col: 20 }],
+    walls: [],
+    path: [],
     visited: [],
     onCellClick: handleCellClick,
   };
 
-  const [gridProps, setGridProps] = useState<GridProps>(initialGridProps);
+  const [gridProps, setGridProps] = useState<gridInterface>(initialGridProps);
 
-  
+  function resetClicked() {
+    window.location.reload();
+  }
+
   async function bfsClicked() {
-    const result = await bfs(gridProps, setGridProps);
-    console.log(result);
+    setIsSearchRunning(true);
+    await bfs(gridProps, setGridProps);
+    setIsSearchRunning(false);
   }
   async function dfsClicked() {
-    const result = await dfs(gridProps, setGridProps);
-    console.log(result);
+    setIsSearchRunning(true);
+    await dfs(gridProps, setGridProps);
+    setIsSearchRunning(false);
   }
 
   return (
     <div>
       <Grid {...gridProps} />
-      <button onClick={() => bfsClicked()}>breadth first search</button>
-      <button onClick={() => dfsClicked()}>depth first search</button>
+      <div className={styles.buttonContainer} >
+        <button onClick={() => bfsClicked()} disabled={isSearchRunning} className={styles.button} style={{backgroundColor: "#88de87"}}>
+          Breadth First search
+        </button>
+        <button onClick={() => dfsClicked()} disabled={isSearchRunning} className={styles.button} style={{backgroundColor: "#3d59d7"}}>
+          Depth First search
+        </button>
+        <button onClick={() => resetClicked()} disabled={isSearchRunning} className={styles.button}>
+          Reset
+        </button>
+      </div>
     </div>
   );
 }
