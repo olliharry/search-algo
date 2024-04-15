@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { bfs } from "./components/bfs";
 import { dfs } from "./components/dfs";
 import { gridInterface } from "./interfaces/gridInterface";
-import styles from './page.module.css';
+import styles from "./page.module.css";
 export default function Home() {
   const handleCellClick = (row: number, col: number) => {
     var newWalls = gridProps.walls;
@@ -50,16 +50,31 @@ export default function Home() {
   }
 
   return (
-    <div>
+    <div className={styles.container}>
+      <p>Click on the cells to add walls!</p>
       <Grid {...gridProps} />
-      <div className={styles.buttonContainer} >
-        <button onClick={() => bfsClicked()} disabled={isSearchRunning} className={styles.button} style={{backgroundColor: "#88de87"}}>
+      <div className={styles.buttonContainer}>
+        <button
+          onClick={() => bfsClicked()}
+          disabled={isSearchRunning}
+          className={styles.button}
+          style={{ backgroundColor: "#88de87" }}
+        >
           Breadth First search
         </button>
-        <button onClick={() => dfsClicked()} disabled={isSearchRunning} className={styles.button} style={{backgroundColor: "#3d59d7"}}>
+        <button
+          onClick={() => dfsClicked()}
+          disabled={isSearchRunning}
+          className={styles.button}
+          style={{ backgroundColor: "#3d59d7" }}
+        >
           Depth First search
         </button>
-        <button onClick={() => resetClicked()} disabled={isSearchRunning} className={styles.button}>
+        <button
+          onClick={() => resetClicked()}
+          disabled={isSearchRunning}
+          className={styles.button}
+        >
           Reset
         </button>
       </div>
