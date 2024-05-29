@@ -1,29 +1,26 @@
-
-
-.buttonContainer{
-    display: flex;
-    gap: 10px;
+.buttonContainer {
+  display: flex;
+  gap: 10px;
 }
 
 .button {
-    color: #090909;
-    padding: 0.7em 1.7em;
-    font-size: 18px;
-    border-radius: 0.5em;
-    background: #e24242;
-    cursor: pointer;
-    border: 1px solid #e8e8e8;
-    transition: all 0.3s;
-  }
-  
-.button:hover {
-    border: 1px solid white;
+  color: #090909;
+  padding: 0.7em 1.7em;
+  font-size: 18px;
+  border-radius: 0.5em;
+  background: #e24242;
+  cursor: pointer;
+  border: 1px solid #e8e8e8;
+  transition: all 0.3s;
 }
-  
-.container{
+
+.button:hover {
+  border: 1px solid white;
+}
+
+.container {
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
-    margin-top: 50px;
+    align-items: center;
+    justify-content: center;
 }

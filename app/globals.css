@@ -8,8 +8,7 @@
   grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
   row-gap: 1px;
   column-gap: 5px;
-  width: 37%;
-  
+  width: 700px;
 }
 
 .cell {
